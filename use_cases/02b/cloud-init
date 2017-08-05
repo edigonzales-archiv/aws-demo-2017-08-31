@@ -1,0 +1,16 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+# Amazon Linux
+#repo_update: true
+#repo_upgrade: all
+
+packages:
+ - openjdk-8-jdk
+
+runcmd:  
+  - git clone https://github.com/edigonzales/ilivalidator-web-service.git /home/ubuntu/ilivalidator-web-service/
+  - /home/ubuntu/ilivalidator-web-service/gradlew -p /home/ubuntu/ilivalidator-web-service/ build
+  - chown -R ubuntu:ubuntu /home/ubuntu/ilivalidator-web-service/
+  - sudo -u ubuntu /home/ubuntu/ilivalidator-web-service/build/libs/ilivalidator-web-service-0.0.8.jar
