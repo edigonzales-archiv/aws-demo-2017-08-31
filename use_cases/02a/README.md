@@ -66,7 +66,7 @@ source "$HOME/.sdkman/bin/sdkman-init.sh"
 sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' ~/.sdkman/etc/config
 sdk i groovy
 sdk i gradle
-git clone https://github.com/edigonzales/ilivalidator-web-service.git
+git clone https://github.com/sogis/ilivalidator-web-service.git
 cd ilivalidator-web-service
 ./gradlew build
 ./build/libs/ilivalidator-web-service-0.0.8.jar

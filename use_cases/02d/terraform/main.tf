@@ -18,24 +18,22 @@ resource "aws_security_group" "allow_all" {
   }
 }
 
-resource "aws_instance" "example" {
-  #ami = "ami-82be18ed" # Amazon Linux
-  ami = "ami-1c45e273" # Ubuntu 16.04
+resource "aws_instance" "ilivalidator-web-service" {
+  ami = "ami-7e5cf211" 
   instance_type = "t2.micro"
   vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
   
   user_data = <<-EOF
               #!/bin/bash
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p "${var.server_port}" &
+              nohup sudo -u ubuntu /home/ubuntu/ilivalidator-web-service/build/libs/ilivalidator-web-service-0.0.8.jar
               EOF
 
   tags {
-    Name = "terraform-example"
+    Name = "ilivalidator-web-service-example"
   }
 }
 
 output "public_ip" {
-  value = "${aws_instance.example.public_ip}"
+  value = "${aws_instance.ilivalidator-web-service.public_ip}"
 }
 
