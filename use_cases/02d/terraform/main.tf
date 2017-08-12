@@ -21,6 +21,7 @@ resource "aws_security_group" "allow_all" {
 resource "aws_instance" "ilivalidator-web-service" {
   ami = "ami-7e5cf211" 
   instance_type = "t2.micro"
+  key_name = "aws-demo"
   vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
   
   user_data = <<-EOF
