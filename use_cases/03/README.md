@@ -1,77 +1,17 @@
 ## Manuell im Browser
 
 ```
-https://eu-central-1.console.aws.amazon.com/ec2/v2/home?region=eu-central-1#
+https://eu-central-1.console.aws.amazon.com/rds/home?region=eu-central-1
 ```
 
 ```
-Launch Instance
+Launch a DB Instance
 ```
 
 ```
-Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-1e339e71
+Backup Retention Period: 0
 ```
 
 ```
-t2.micro
-```
-
-```
-Auto-assign Public IP: Enable
-```
-
-```
-IAM role
-```
-
-```
-Security Group: All TCP / 0.0.0.0/0
-```
-
-```
-Launch: Choose an existing key pair / aws-demo
-```
-
-```
-EC2 Dashboard -> pending/running...
-```
-
-```
-IPv4 Public IP: ...
-```
-
-```
-Monitoring zeigen
-```
-
-```
-chmod 400 .aws-keys/aws-demo.pem
-```
-
-```
-ssh -i .aws-keys/aws-demo.pem ubuntu@54.93.246.210
-```
-
-(Username unterschiedlich je Linux: Amazon-Linux=ec2-user)
-
-
-```
-sudo apt-get update
-sudo apt-get --yes install openjdk-8-jre-headless
-sudo apt-get --yes install openjdk-8-jdk
-sudo apt-get --yes install unzip
-sudo apt-get --yes install zip
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' ~/.sdkman/etc/config
-sdk i groovy
-sdk i gradle
-git clone https://github.com/sogis/ilivalidator-web-service.git
-cd ilivalidator-web-service
-./gradlew build
-./build/libs/ilivalidator-web-service-0.0.8.jar
-```
-
-```
-http://54.93.246.210:8888/ilivalidator/
+java -jar ~/Apps/ili2pg-3.9.1/ili2pg.jar --dbhost XXXXXXXXXXXXXXX --dbport 5432 --dbusr stefan --dbpwd YYYYYYY --dbdatabase xanadu2 --setupPgExt --nameByTopic --createEnumTabs --strokeArcs --createFk --createFkIdx --createUnique --createNumChecks --models SO_ARP_Nutzungsvereinbarung_20170512 --dbschema arp_nutzungsvereinbarung --import nutzungsvereinbarung_20170529.xtf
 ```
