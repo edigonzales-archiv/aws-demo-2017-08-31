@@ -25,7 +25,9 @@ resource "aws_security_group" "allow_all" {
   }
 }
 
-resource "aws_instance" "ilivalidator-web-service" {
+
+
+resource "aws_instance" "av_avdpool_ng" {
   ami = "ami-82be18ed" 
   instance_type = "t2.micro"
   key_name = "aws-demo"
@@ -33,10 +35,14 @@ resource "aws_instance" "ilivalidator-web-service" {
   
   user_data = <<-EOF
               #!/bin/bash
-              curl -s "https://get.sdkman.io" | bash
-              source "$HOME/.sdkman/bin/sdkman-init.sh"
-              sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' ~/.sdkman/etc/config
-              sdk i gradle
+              yum -y install git
+              git clone https://github.com/edigonzales/aws-demo-2017-08-XY.git /tmp/aws-demo
+              sed -i -e 's/dbHost/${aws_security_group.allow_all.id}/g' /tmp/aws-demo/use_cases/04/av_avdpool_ng/build.gradle
+              #### sed gradle.build
+              #export SDKMAN_DIR="/usr/local/sdkman" && curl -s "https://get.sdkman.io" | bash
+              #source "/usr/local/sdkman/bin/sdkman-init.sh"
+              #sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' /usr/local/sdkman/etc/config
+              #sdk i gradle
               EOF
 
   tags {
@@ -45,6 +51,6 @@ resource "aws_instance" "ilivalidator-web-service" {
 }
 
 output "public_ip" {
-  value = "${aws_instance.ilivalidator-web-service.public_ip}"
+  value = "${aws_instance.av_avdpool_ng.public_ip}"
 }
 
