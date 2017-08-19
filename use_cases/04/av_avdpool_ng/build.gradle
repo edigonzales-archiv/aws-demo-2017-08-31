@@ -15,6 +15,7 @@ import ch.ehi.ili2db.base.Ili2dbException
 import ch.ehi.ili2db.gui.Config
 import ch.ehi.ili2db.mapping.NameMapping
 import ch.ehi.sqlgen.generator.SqlConfiguration
+import ch.ehi.basics.logging.EhiLogger
 
 ext {
     setPropertyDefaultValueIfNotCustomized('dbHost', "999.999.999.999")
@@ -28,20 +29,22 @@ ext {
     //fosnrs = [2401,2402,2403,2404,2405,2406,2407,2408,2421,2422,2423,2424,2425,2426,2427,2428,2429,2445,2455,2456,2457,2461,2463,2464,2465,2471,2472,2473,2474,2475,2476,2477,2478,2479,2480,2481,2491,2492,2493,2495,2497,2498,2499,2500,2501,2502,2503,2511,2513,2514,2516,2517,2518,2519,2520,2523,2524,2525,2526,2527,2528,2529,2530,2532,2534,2535,2541,2542,2543,2544,2545,2546,2547,2548,2549,2550,2551,2553,2554,2555,2556,2571,2572,2573,2574,2575,2576,2578,2579,2580,2581,2582,2583,2584,2585,2586,2601,2611,2612,2613,2614,2615,2616,2617,2618,2619,2620,2621,2622]
     fosnrs = [2549]
     baseUrl = "https://geoweb.so.ch/av_datenabgabe/av_daten/itf_so/"
-    downloadDir = System.getProperty("java.io.tmpdir")
+    downloadDir = System.getProperty("java.io.tmpdir") + File.separator
 
     config = new Config()
 }
 
 task initDatabase(dependsOn: 'config') {
     doLast {
-        config.setConfigReadFromDb(true)
+        config.setSetupPgExt(true)        
+        config.setConfigReadFromDb(false)
         config.setModels(modelName)
+
         Ili2db.runSchemaImport(config, "")
     }
 }
 
-task downloadFiles(dependsOn: 'config') {
+task downloadFiles() {
     doLast {
         fosnrs.each { fosnr ->
             def url = baseUrl + fosnr + "00.zip"
@@ -104,7 +107,6 @@ task config() {
         config.setIdGenerator(ch.ehi.ili2db.base.TableBasedIdGen.class.getName())
         config.setInheritanceTrafo(config.INHERITANCE_TRAFO_SMART1)
         config.setValidation(false)
-        config.setSetupPgExt(true)
         config.setCreateFkIdx(config.CREATE_FKIDX_YES)
         config.setValue(SqlConfiguration.CREATE_GEOM_INDEX,"True")
         config.setSqlNull(config.SQL_NULL_ENABLE)
@@ -116,6 +118,7 @@ task config() {
         config.setDdlGenerator(ch.ehi.sqlgen.generator_impl.jdbc.GeneratorPostgresql.class.getName())
         config.setJdbcDriver("org.postgresql.Driver")
         config.setIdGenerator(ch.ehi.ili2pg.PgSequenceBasedIdGen.class.getName())
+        config.setIli2dbCustomStrategy(ch.ehi.ili2pg.PgCustomStrategy.class.getName())
         config.setUuidDefaultValue("uuid_generate_v4()")
         config.setDbhost(dbHost)
         config.setDbdatabase(dbDatabase)
