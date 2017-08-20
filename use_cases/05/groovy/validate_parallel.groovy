@@ -58,7 +58,7 @@ def ant = new AntBuilder()
 def dir = new File(downloadDir)
 
 if (download) {
-    dir.traverse(type: FileType.FILES, nameFilter: ~/.*\.(?i)zip$/) { file ->
+    dir.traverse(type: FileType.FILES, nameFilter: ~/.*\.(?i)zip$/, maxDepth: 0) { file ->
         println "Unzipping: " + file.getAbsolutePath()
         ant.unzip(
                 src: file,
@@ -69,7 +69,7 @@ if (download) {
     }
 }
 
-dir.traverse(type: FileType.FILES, nameFilter: ~/^(1|2)[a-zA-Z]?.*\.(?i)itf$/) { file ->
+dir.traverse(type: FileType.FILES, nameFilter: ~/^(1|2)[a-zA-Z]?.*\.(?i)itf$/, maxDepth: 0) { file ->
     list << file
 }
 

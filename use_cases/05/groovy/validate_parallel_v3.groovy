@@ -83,7 +83,7 @@ if (download) {
     }
 }
 
-dir.traverse(type: FileType.FILES, nameFilter: ~/^(1|2)[a-zA-Z]?.*\.(?i)itf$/) { file ->
+dir.traverse(type: FileType.FILES, nameFilter: ~/^(1|2)[a-zA-Z]?.*\.(?i)itf$/, maxDepth: 0) { file ->
     list << file
 }
 
