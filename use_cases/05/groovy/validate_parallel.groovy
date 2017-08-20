@@ -77,38 +77,7 @@ dir.traverse(type: FileType.FILES, nameFilter: ~/^(1|2)[a-zA-Z]?.*\.(?i)itf$/) {
 println "------------ Start PARALLEL validating ------------"
 println new Date()
 
-/*
-list.each { file ->
-    println "Validating: " + file.getAbsolutePath()
-
-    CloseableHttpClient client = HttpClientBuilder.create().build()
-
-    HttpPost post = new HttpPost(validatorUrl)
-    MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-    builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-    builder.addBinaryBody("file", file, ContentType.DEFAULT_BINARY, file.getName())
-
-    HttpEntity entity = builder.build()
-    post.setEntity(entity)
-
-    HttpResponse response = client.execute(post)
-    HttpEntity responseEntity = response.getEntity();
-    String responseString = EntityUtils.toString(responseEntity, "UTF-8");
-    
-    println "**" + file.getName() + "** " + "Status line: " + response.getStatusLine()
-
-    responseString.eachLine {
-        if (it =~ /Info: xtfFile/ || it =~ /Info: ...validation/) {
-            println "**" + file.getName() + "** " + it  
-        }
-    } 
-
-}
-*/
-
-// 
-
-GParsPool.withPool 2, {
+GParsPool.withPool 6, {
     list.eachParallel { file ->
         println file
         CloseableHttpClient client = HttpClientBuilder.create().build()

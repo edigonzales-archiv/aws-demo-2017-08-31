@@ -89,49 +89,8 @@ dir.traverse(type: FileType.FILES, nameFilter: ~/^(1|2)[a-zA-Z]?.*\.(?i)itf$/) {
 println "------------ Start PARALLEL validating ------------"
 println new Date()
 
-/*
-CloseableHttpAsyncClient client = HttpAsyncClients.createDefault()
-client.start()
-
-//HttpGet request = new HttpGet("http://www.google.com")
-def file = new File("/var/folders/s_/ybgl46w50pd_l3pl37h45vr80000gn/T/242100.itf")
-HttpPost request = new HttpPost(validatorUrl)
-MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-builder.addBinaryBody("file", file, ContentType.DEFAULT_BINARY, file.getName())
-
-//MultipartFormEntity multipartEntity = builder.build()
-
-HttpEntity entity = new BufferedHttpEntity(builder.build())
-request.setEntity(entity)
-
-Future<HttpResponse> future = client.execute(request, null)
-HttpResponse response = future.get()
-println response.getStatusLine()
-client.close()
-*/
-
-
 list.each { file ->
     println "Validating: " + file.getAbsolutePath()
-
-/*
-    CloseableHttpAsyncClient client = HttpAsyncClients.createDefault()
-    client.start()
-
-    HttpPost post = new HttpPost(validatorUrl)
-    MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-    builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-    builder.addBinaryBody("file", file, ContentType.DEFAULT_BINARY, file.getName())
-
-    HttpEntity entity = builder.build()
-    post.setEntity(entity)
-
-    Future<HttpResponse> future = client.execute(post, null)
-    HttpResponse response = future.get()
-    println response.getStatusLine()
-    client.close()
-*/
    
     CloseableHttpAsyncClient client = HttpAsyncClients.createDefault()
     client.start()
@@ -161,64 +120,5 @@ list.each { file ->
 
 }
 
-/*
-
-list.each { file ->
-    println "Validating: " + file.getAbsolutePath()
-
-    CloseableHttpClient client = HttpClientBuilder.create().build()
-
-    HttpPost post = new HttpPost(validatorUrl)
-    MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-    builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-    builder.addBinaryBody("file", file, ContentType.DEFAULT_BINARY, file.getName())
-
-    HttpEntity entity = builder.build()
-    post.setEntity(entity)
-
-    HttpResponse response = client.execute(post)
-    HttpEntity responseEntity = response.getEntity();
-    String responseString = EntityUtils.toString(responseEntity, "UTF-8");
-    
-    println "**" + file.getName() + "** " + "Status line: " + response.getStatusLine()
-
-    responseString.eachLine {
-        if (it =~ /Info: xtfFile/ || it =~ /Info: ...validation/) {
-            println "**" + file.getName() + "** " + it  
-        }
-    } 
-
-}
-*/
-
-/*
-GParsPool.withPool 4, {
-    list.eachParallel { file ->
-        println file
-        CloseableHttpClient client = HttpClientBuilder.create().build()
-
-        HttpPost post = new HttpPost(validatorUrl)
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-        builder.addBinaryBody("file", file, ContentType.DEFAULT_BINARY, file.getName())
-
-        HttpEntity entity = builder.build()
-        post.setEntity(entity)
-
-        HttpResponse response = client.execute(post)
-        HttpEntity responseEntity = response.getEntity();
-        String responseString = EntityUtils.toString(responseEntity, "UTF-8");
-        
-        //println "**" + file.getName() + "** " + "Status line: " + response.getStatusLine()
-
-        responseString.eachLine {
-            if (it =~ /Info: xtfFile/ || it =~ /Info: ...validation/) {
-                //println "**" + file.getName() + "** " + it  
-                println it  
-            }
-        } 
-    }
-}
-*/
 // Stop
 println("STOP at: " + new Date())
