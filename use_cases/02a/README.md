@@ -17,7 +17,7 @@ t2.micro
 ```
 
 ```
-Auto-assign Public IP: Enable
+Auto-assign Public IP: (Enable)
 ```
 
 ```
@@ -57,15 +57,7 @@ ssh -i .aws-keys/aws-demo.pem ubuntu@54.93.246.210
 
 ```
 sudo apt-get update
-sudo apt-get --yes install openjdk-8-jre-headless
-sudo apt-get --yes install openjdk-8-jdk
-sudo apt-get --yes install unzip
-sudo apt-get --yes install zip
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' ~/.sdkman/etc/config
-sdk i groovy
-sdk i gradle
+sudo apt-get --yes install openjdk-8-jre-headless openjdk-8-jdk unzip zip
 git clone https://github.com/sogis/ilivalidator-web-service.git
 cd ilivalidator-web-service
 ./gradlew build
