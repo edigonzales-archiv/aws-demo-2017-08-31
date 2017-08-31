@@ -60,7 +60,7 @@ sudo apt-get update
 sudo apt-get --yes install openjdk-8-jre-headless openjdk-8-jdk unzip zip
 git clone https://github.com/sogis/ilivalidator-web-service.git
 cd ilivalidator-web-service
-./gradlew build
+./gradlew build -x test
 ./build/libs/ilivalidator-web-service-0.0.8.jar
 ```
 

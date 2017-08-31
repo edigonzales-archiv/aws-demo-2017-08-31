@@ -2,8 +2,8 @@ provider "aws" {
   region = "eu-central-1"
 }
 
-resource "aws_security_group" "postgres" {
-  name        = "postgres"
+resource "aws_security_group" "postgres2" {
+  name        = "postgres2"
   description = "Allow only postgres inbound."
   
   ingress {
@@ -21,12 +21,12 @@ resource "aws_security_group" "postgres" {
   }
 
   tags {
-    Name = "allow_pg"
+    Name = "allow_pg2"
   }
 }
 
-resource "aws_security_group" "allow_all" {
-  name        = "allow_all"
+resource "aws_security_group" "allow_all2" {
+  name        = "allow_all2"
   description = "Allow all inbound/outbound traffic"
   
   ingress {
@@ -44,12 +44,12 @@ resource "aws_security_group" "allow_all" {
   }
 
   tags {
-    Name = "allow_all"
+    Name = "allow_all2"
   }
 }
 
 resource "aws_db_instance" "aws-test-db" {
-    identifier = "aws-test"
+    identifier = "aws-test2"
     availability_zone = "eu-central-1a"    
     allocated_storage = 5
     storage_type = "gp2"    
@@ -65,7 +65,7 @@ resource "aws_db_instance" "aws-test-db" {
     backup_retention_period = "0"
     apply_immediately = "true"
     auto_minor_version_upgrade = false
-    vpc_security_group_ids = ["${aws_security_group.postgres.id}"]    
+    vpc_security_group_ids = ["${aws_security_group.postgres2.id}"]    
     skip_final_snapshot = true
 }
 
@@ -74,7 +74,7 @@ resource "aws_instance" "av-import" {
   availability_zone = "eu-central-1a"  
   instance_type = "t2.micro"
   key_name = "aws-demo"
-  vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
+  vpc_security_group_ids = ["${aws_security_group.allow_all2.id}"]
   
   user_data = <<-EOF
               #!/bin/bash
